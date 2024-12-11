@@ -11,10 +11,10 @@ if [ "$#" -ne 5 ]; then
 fi
 
 # example:
-#   sudo ./ovs-vlans.sh ovs_eth5 eth5-br11 11 10.0.11.1/24 10.0.11.1
+#   sudo ./ovs-vlans.sh ovs_eth5 eth5-br11 11 10.0.11.99/24 10.0.11.1
 # 
 # program will create a bridge interface (eth5-br11) off parent (ovs_eth5),
-# assigned address (10.0.11.51) with broadcast (10.0.11.255; calculated).
+# assigned address (10.0.11.99) with broadcast (10.0.11.255; calculated).
 # it will then attempt to ping a gateway (10.0.11.1) to test the interface.
 
 PARENT="$1"		# existing interface
