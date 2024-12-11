@@ -48,29 +48,3 @@ else
 	exit 1
 fi
 
-
-#!/bin/bash
-
-# Rest of the script logic
-echo "## Deleting existing bridge interface ($BRIDGE)..."
-ovs-vsctl --if-exists del-br $BRIDGE || { echo "Failed to delete existing bridge"; exit 1; }
-
-echo "## Creating new bridge interface ($BRIDGE) with VLAN ID $VLANID..."
-ovs-vsctl add-br $BRIDGE $PARENT $VLANID || { echo "Failed to create bridge interface"; exit 1; }
-
-echo "## Configuring IP address ($CIDRIP) on $BRIDGE..."
-ip addr flush dev $BRIDGE
-ip addr add $CIDRIP brd $BRDCST dev $BRIDGE || { echo "Failed to set IP address"; exit 1; }
-
-echo "## Bringing up interface ($BRIDGE)..."
-ip link set $BRIDGE up || { echo "Failed to bring up interface"; exit 1; }
-
-echo "## Testing connectivity to router ($ROUTER)..."
-ping -c 1 -w 1 -q $ROUTER
-if [ $? -eq 0 ]; then
-    echo "## Connectivity test passed"
-    exit 0
-else
-    echo "## Connectivity test failed"
-    exit 1
-fi
